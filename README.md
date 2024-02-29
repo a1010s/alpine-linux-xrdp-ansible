@@ -43,6 +43,7 @@ To execute the playbook, use the provided YAML file and ensure Ansible is instal
 ansible-playbook -i inventory -u $USER configure_alpine-xrdp.yml
 ```
 
+## **ACCESSING THE REMOTE MACHINE**
 For remote desktop access, I recommend using Remmina. Remmina is a feature-rich remote desktop client that supports various protocols including RDP (Remote Desktop Protocol), VNC (Virtual Network Computing), SSH (Secure Shell), and more.
 
 You can install Remmina on your local machine to connect to the Alpine Linux system configured with Xfce desktop and xrdp using the following command:
