@@ -1,6 +1,6 @@
 # **Alpine Linux Configuration with Xfce Desktop & DevOps tools**
 
-This repository provides an Ansible playbook for configuring Alpine Linux with the Xfce desktop environment, xrdp, and kubectl. Below are the steps and configurations included in the playbook.
+This repository provides an Ansible playbook for configuring Alpine Linux with the Xfce desktop environment (xrdp). Below are the steps and configurations included in the playbook.
 
 ## **Prerequisites**
 Before running the playbook, make sure to preconfigure your Alpine Linux system with the following:
@@ -41,6 +41,14 @@ To execute the playbook, use the provided YAML file and ensure Ansible is instal
 
 ```bash
 ansible-playbook -i inventory -u $USER configure_alpine-xrdp.yml
+```
+
+For remote desktop access, I recommend using Remmina. Remmina is a feature-rich remote desktop client that supports various protocols including RDP (Remote Desktop Protocol), VNC (Virtual Network Computing), SSH (Secure Shell), and more.
+
+You can install Remmina on your local machine to connect to the Alpine Linux system configured with Xfce desktop and xrdp using the following command:
+
+```bash
+sudo apt install remmina
 ```
 
 ## **Notes**
