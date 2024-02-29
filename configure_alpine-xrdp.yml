@@ -59,6 +59,7 @@
         - breeze-gtk
         - breeze
         - kubectl
+        - ansible
         - git
         - firefox
         - speedtest-cli
