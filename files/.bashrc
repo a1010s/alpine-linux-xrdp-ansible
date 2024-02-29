@@ -17,4 +17,3 @@ gitacp() {
     git push origin master
 }
 alias k="kubectl"
-alias vi="vim"
