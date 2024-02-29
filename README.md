@@ -1,4 +1,4 @@
-# **Alpine Linux Configuration with Xfce Desktop, xrdp, and kubectl**
+# **Alpine Linux Configuration with Xfce Desktop & DevOps tools**
 
 This repository provides an Ansible playbook for configuring Alpine Linux with the Xfce desktop environment, xrdp, and kubectl. Below are the steps and configurations included in the playbook.
 
