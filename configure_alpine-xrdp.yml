@@ -1,0 +1,102 @@
+---
+# Preconfigure alpine with:
+# - comunity repos
+# - apk add python3 
+# - apk add sudo 
+
+# Add user and give sudo permission:
+# ==================================
+# apk add sudo
+# NEWUSER='yourUserName'
+# adduser -g "${NEWUSER}" $NEWUSER
+# echo "$NEWUSER ALL=(ALL) ALL" > /etc/sudoers.d/$NEWUSER && chmod 0440 /etc/sudoers.d/$NEWUSER
+
+- name: Configure Alpine Linux with Xfce desktop, xrdp, and kubectl
+  hosts: all
+  become: false
+  gather_facts: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+
+    - name: Setup comunity repositories
+      become: yes
+      command: "setup-apkrepos -cf"
+
+    - name: Update repositories
+      apk:
+        update_cache: yes
+
+    - name: Upgrade packages
+      apk:
+        upgrade: yes
+
+    - name: Copy .dot files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      loop:
+        - {src: 'files/.bashrc', dest:  '/root/.bashrc'}
+        - {src: 'files/.vimrc', dest:  '/root/.vimrc'}
+
+    - name: Install Xfce desktop environment, xrdp, and other required packages
+      apk:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - vim
+        - xfce4
+        - xfce4-terminal
+        - xfce4-screensaver
+        - lightdm-gtk-greeter
+        - xrdp
+        - xorgxrdp
+        - xorg-server
+        - adw-gtk3
+        - helm 
+        - helm-bash-completion
+        - mousepad
+        - breeze-gtk
+        - breeze
+        - kubectl
+        - git
+        - firefox
+        - speedtest-cli
+        - curl   
+        - openssl   # Required for some kubectl functionality
+      ignore_errors: yes
+    
+    - name: Run setup-devd and udev commands
+      become: yes
+      command: "setup-devd udev"
+
+    - name: Start and enable lightdm
+      service:
+        name: lightdm
+        state: started
+        enabled: yes
+
+    - name: Start and enable xrdp
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - xrdp
+        - xrdp-sesman
+
+    - name: link vim to vi
+      command: ln -sf /usr/bin/vim /usr/bin/vi
+
+
+    - name: Add lightdm to default runlevel
+      command: rc-update add lightdm default
+
+    - name: Add xrdp and xorgxrdp to default runlevel
+      command: rc-update add "{{ item }}" default
+      loop:
+        - xrdp
+
+#    - name: Reboot the system
+#      reboot:
+#        reboot_timeout: 300
